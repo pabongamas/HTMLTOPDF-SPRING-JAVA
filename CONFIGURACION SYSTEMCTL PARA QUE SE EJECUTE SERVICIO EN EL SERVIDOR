@@ -1,0 +1,30 @@
+1.Crea un archivo de servicio:
+en  un editor de texto y crear un archivo llamado, por ejemplo, tu-aplicacion.service. se puede con este comando 
+
+nano /etc/systemd/system/mi-aplicacion.service
+
+2.añadir configuracion del servicio en el archivo mi-aplicacion.service
+
+
+[Unit]
+Description=Mi Aplicacion Spring
+
+[Service]
+ExecStart=/ruta/a/java -jar /ruta/a/tu-aplicacion.jar
+Restart=always
+User=nombre_de_usuario   # Reemplaza con tu nombre de usuario se hizo la gestion con el usuario "root"
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+
+3.Recarga systemd y habilita el servicio:
+
+sudo systemctl daemon-reload
+sudo systemctl enable mi-aplicacion.service
+
+4.iniciar el servicio
+
+sudo systemctl start mi-aplicacion.service
+
+

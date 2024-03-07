@@ -1,0 +1,70 @@
+
+Crea un script de inicio:
+
+1.crear un nuevo archivo para el script de inicio. Por ejemplo:
+
+sudo nano /etc/init.d/mi-aplicacion
+
+2.Añadir configuración del servicio al script:
+
+//esto iria en el archivo 
+
+#!/bin/bash
+# chkconfig: 345 99 10
+# description: Microservicio para generacion de pdf a travez de HTML
+
+JAVA_HOME=/usr/lib/jvm/jdk-17/bin/java
+JAR_FILE=/avance/htdocs/BPM/signo/microservicios/java/microservicepdf-1.0.jar
+
+case "$1" in
+  start)
+    $JAVA_HOME -jar $JAR_FILE &
+    ;;
+  stop)
+    kill -9 $(pgrep -f "$JAR_FILE")
+    ;;
+  restart)
+    $0 stop
+    sleep 2
+    $0 start
+    ;;
+  *)
+    echo "Uso: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
+
+//hasta aca
+
+3.Habilitar el script de inicio:
+
+Hacer el script ejecutable con sudo chmod +x /etc/init.d/mi-aplicacion
+
+4.Añadir el script al inicio del sistema
+
+sudo chkconfig --add mi-aplicacion
+sudo chkconfig mi-aplicacion on
+
+5.Iniciar, deténer o reiniciar el servicio:
+
+Iniciar el servicio:
+
+sudo service mi-aplicacion start
+Detener el servicio:
+
+sudo service mi-aplicacion stop
+Reiniciar el servicio:
+
+sudo service mi-aplicacion restart
+
+
+ y ya 
+ 
+ para ver los puertos utilizado hacerlo con  netstat -lntu
+
+
+
+Este es un enfoque básico para crear y gestionar scripts de inicio utilizando init en CentOS
